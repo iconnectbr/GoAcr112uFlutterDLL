@@ -29,6 +29,23 @@ func GetUid() *C.char {
 	return C.CString(uidString)
 }
 
+//export GetReaderName
+func GetReaderName() *C.char {
+	ctx, err := acr122u.EstablishContext()
+	if err != nil {
+		return C.CString("Error establishing context")
+	}
+
+	readers := ctx.Readers()
+	if err != nil {
+		return C.CString("Error listing readers")
+	}
+
+	print(readers[0])
+	return C.CString(readers[0])
+}
+
 func main() {
+	GetReaderName()
 	GetUid()
 }
